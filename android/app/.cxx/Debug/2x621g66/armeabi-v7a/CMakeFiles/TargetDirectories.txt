@@ -1,0 +1,2 @@
+C:/Users/hp/Desktop/imtihon_3_oy-main/android/app/.cxx/Debug/2x621g66/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/hp/Desktop/imtihon_3_oy-main/android/app/.cxx/Debug/2x621g66/armeabi-v7a/CMakeFiles/rebuild_cache.dir

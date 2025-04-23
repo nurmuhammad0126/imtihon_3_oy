@@ -1,0 +1,2 @@
+C:/Users/hp/Desktop/imtihon_3_oy-main/android/app/.cxx/Debug/4v4c1n57/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/hp/Desktop/imtihon_3_oy-main/android/app/.cxx/Debug/4v4c1n57/arm64-v8a/CMakeFiles/rebuild_cache.dir

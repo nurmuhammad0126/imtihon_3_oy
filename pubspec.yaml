@@ -1,0 +1,26 @@
+name: flutter_3_oy_imtixon
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_screenutil: ^5.8.4
+  http: ^1.3.0
+  intl_phone_field: ^3.2.0
+  pin_code_fields: ^8.0.1
+  shared_preferences: ^2.5.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
