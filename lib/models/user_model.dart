@@ -64,4 +64,26 @@ class UserModel {
       'profile': profile.toJson(),
     };
   }
+
+  UserModel copyWith({
+    String? id,
+    String? email,
+    String? phone,
+    String? password,
+    List<CartItemModel>? cart,
+    List<OrderModel>? orders,
+    UserProfileModel? profile,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      password: password ?? this.password,
+      cart: cart ?? this.cart,
+      orders: orders ?? this.orders,
+      profile: profile ?? this.profile,
+    );
+  }
+
+
 }

@@ -20,4 +20,13 @@ class UserProfileModel {
       'address': address,
     };
   }
+  UserProfileModel copyWith({
+    String? name,
+    String? address,
+  }) {
+    return UserProfileModel(
+      name: name ?? this.name,
+      address: address ?? this.address,
+    );
+  }
 }

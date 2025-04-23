@@ -4,6 +4,8 @@ import 'package:flutter_3_oy_imtixon/views/sign_up_screen/screen/sign_up_screen.
 import 'package:flutter_3_oy_imtixon/views/sms_screen/screen/sms_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../forget_password/screen/forget_password.dart';
+
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
@@ -249,6 +251,26 @@ class _SignInScreenState extends State<SignInScreen> {
                     const SizedBox(),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Center(
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPasswordScreen(),
+                          ));
+                    },
+                    child: Text(
+                      "Forget Password",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    )),
+              ),
+              SizedBox(
+                height: 20.h,
               ),
             ],
           ),

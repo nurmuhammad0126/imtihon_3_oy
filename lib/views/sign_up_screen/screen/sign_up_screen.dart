@@ -5,7 +5,7 @@ import 'package:flutter_3_oy_imtixon/repository/user_repository.dart';
 import 'package:flutter_3_oy_imtixon/views/sign_in_screen/screen/sign_in_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../view_model/validator.dart';
+import '../../../view_model/validator_view_model.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

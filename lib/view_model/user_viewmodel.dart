@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter_3_oy_imtixon/models/user_model.dart';
 import 'package:flutter_3_oy_imtixon/repository/user_repository.dart';
+import 'package:http/http.dart' as http;
 
 class UserViewmodel {
   UserViewmodel._internal();
@@ -42,5 +45,33 @@ class UserViewmodel {
       }
     }
     return null;
+  }
+
+  // Update password
+  Future<void> updatePassword(String email, String newPassword) async {
+    final users = await repo.getUsers();
+
+    if (users == null || users.isEmpty) {
+      throw Exception("Foydalanuvchilar topilmadi!");
+    }
+
+    try {
+      final entry = users
+          .firstWhere((t) => t.email.trim() == email.trim())
+          .copyWith(password: newPassword);
+
+      final patchUrl =
+          'https://exam3-85adf-default-rtdb.firebaseio.com/exam3/users/${entry.id}.json';
+
+      final resp = await http.patch(
+        Uri.parse(patchUrl),
+        body: jsonEncode(entry.toJson()),
+      );
+
+      print("UPDATE RESPONSE: ${jsonDecode(resp.body)}");
+    } catch (e) {
+      print("FOYDALANUVCHI TOPILMADI yoki xatolik: $e");
+      throw Exception("Foydalanuvchi topilmadi yoki xatolik yuz berdi.");
+    }
   }
 }
