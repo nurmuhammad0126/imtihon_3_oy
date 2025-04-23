@@ -15,8 +15,44 @@ class _SignInScreenState extends State<SignInScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool isObscore = true;
   final viewModel = UserViewmodel();
+
+  bool isObscore = true;
+  bool isLogin = false;
+
+  Future<void> login() async {
+    setState(() {
+      isLogin = true;
+    });
+    final user = await viewModel.login(
+        email: emailController.text, password: passwordController.text);
+    if (user) {
+      setState(() {
+        isLogin = false;
+      });
+      if (mounted) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (ctx) => SmsScreen()));
+      }
+    } else {
+      if (mounted) {
+        emailController.text = "";
+        passwordController.text = "";
+        setState(() {
+          isLogin = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Bunday Foydalanuvchi Topilmadi!",
+              style: TextStyle(fontSize: 22),
+            ),
+          ),
+        );
+        setState(() {});
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,18 +156,12 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               SizedBox(height: 176.h),
               InkWell(
-                onTap: () async {
-                  //! Login
-                  final user = await viewModel.login(
-                      email: emailController.text,
-                      password: passwordController.text);
-                  if (user) {
-                    if (context.mounted) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (ctx) => SmsScreen()));
-                    }
-                  }
-                },
+                onTap: isLogin
+                    ? () {}
+                    : () async {
+                        //! Login
+                        await login();
+                      },
                 child: Ink(
                   width: 305.w,
                   height: 44.h,
@@ -144,14 +174,20 @@ class _SignInScreenState extends State<SignInScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const SizedBox(),
-                      Text(
-                        "Sign In",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                          fontSize: 12.sp,
-                        ),
-                      ),
+                      isLogin
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              "Sign In",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                                fontSize: 12.sp,
+                              ),
+                            ),
                       Icon(Icons.login_outlined, size: 26.w),
                     ],
                   ),

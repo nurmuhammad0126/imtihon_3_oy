@@ -11,10 +11,12 @@ class CartItemModel {
     required this.quantity,
   });
 
-  factory CartItemModel.fromJson(
-      {required String productId, required Map<String, dynamic> json}) {
+  factory CartItemModel.fromJson({
+    required Map<String, dynamic> json,
+    required String id,
+  }) {
     return CartItemModel(
-      productId: productId,
+      productId: id,
       productName: json["productName"] ?? "",
       productPrice: (json["productPrice"] ?? 0).toDouble(),
       quantity: json["quantity"] ?? 1,
@@ -25,6 +27,7 @@ class CartItemModel {
     return {
       "productName": productName,
       "productId": productId,
+      "productPrice": productPrice,
       "quantity": quantity,
     };
   }

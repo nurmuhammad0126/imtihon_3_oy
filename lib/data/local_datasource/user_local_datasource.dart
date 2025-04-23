@@ -5,16 +5,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserLocalDatasource {
   final String _userKey = 'user';
+
   Future<UserModel?> getUser() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final userData = prefs.getString(_userKey);
       if (userData != null) {
-        final data = await jsonDecode(userData);
-        return UserModel.fromJson(data["id"], data["data"]);
+        final decodedData = jsonDecode(userData);
+        final user = UserModel.fromJson(decodedData["id"], decodedData["data"]);
+        return user;
       }
     } catch (e) {
-      print(e);
+      print("Error in getting user: $e");
     }
     return null;
   }

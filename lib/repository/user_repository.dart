@@ -15,13 +15,26 @@ class UserRepository {
   }
 
   Future<void> logInSave(UserModel user) async {
-    print("----------------------------------------");
-    print(user.toJson());
-    print("----------------------------------------");
     await userlocalDatasource.saveUser(user);
   }
 
   Future<List<UserModel>?> getUsers() async {
     return await userRemoteDatasource.getUsers();
+  }
+
+  Future<bool> register(UserModel user) async {
+    final users = await userRemoteDatasource.getUsers();
+    if (users != null) {
+      for (var i in users) {
+        if (i.email == user.email) {
+          return false;
+        }
+      }
+      userRemoteDatasource.addUser(user);
+      return true;
+    }
+
+    userRemoteDatasource.addUser(user);
+    return true;
   }
 }

@@ -19,6 +19,7 @@ class _OnBoardingPasswordState extends State<SmsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         centerTitle: false,
         title: Row(
@@ -41,109 +42,111 @@ class _OnBoardingPasswordState extends State<SmsScreen> {
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 35.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 48.h),
-            Text(
-              "Password Recovery",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 24.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 8.h),
-            SizedBox(
-              width: 235.w,
-              child: Text(
-                "An authentication code has been sent to (+84) 999 999 999",
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 48.h),
+              Text(
+                "Password Recovery",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            SizedBox(height: 40.h),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0),
-              child: PinCodeTextField(
-                appContext: context,
-                length: 4,
-                obscureText: false,
-                animationType: AnimationType.fade,
-                pinTheme: PinTheme(
-                  shape: PinCodeFieldShape.underline,
-                  fieldHeight: 50,
-                  fieldWidth: 40,
-                  activeFillColor: Colors.white,
-                  inactiveColor: Colors.grey,
-                  selectedColor: Colors.black,
-                ),
-                animationDuration: Duration(milliseconds: 300),
-                enableActiveFill: false,
-                onCompleted: (v) {},
-                onChanged: (value) {},
-              ),
-            ),
-            SizedBox(height: 176.h),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (ctx) => MainScreen()));
-              },
-              child: Ink(
-                width: 305.w,
-                height: 44.h,
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6.r),
-                  color: Colors.yellow,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const SizedBox(),
-                    Text(
-                      "Sign In",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                    Icon(Icons.login_outlined, size: 26.w),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Align(
-              alignment: Alignment.center,
-              child: RichText(
-                text: TextSpan(
-                  text: "Don't have an account?",
+              SizedBox(height: 8.h),
+              SizedBox(
+                width: 235.w,
+                child: Text(
+                  "An authentication code has been sent to (+84) 999 999 999",
                   style: TextStyle(
-                    color: Colors.black.withOpacity(0.4),
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
                   ),
-                  children: [
-                    TextSpan(
-                      text: "Sign up",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
                 ),
               ),
-            ),
-            SizedBox(height: 24.h),
-          ],
+              SizedBox(height: 40.h),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                child: PinCodeTextField(
+                  appContext: context,
+                  length: 4,
+                  obscureText: false,
+                  animationType: AnimationType.fade,
+                  pinTheme: PinTheme(
+                    shape: PinCodeFieldShape.underline,
+                    fieldHeight: 50,
+                    fieldWidth: 40,
+                    activeFillColor: Colors.white,
+                    inactiveColor: Colors.grey,
+                    selectedColor: Colors.black,
+                  ),
+                  animationDuration: Duration(milliseconds: 300),
+                  enableActiveFill: false,
+                  onCompleted: (v) {},
+                  onChanged: (value) {},
+                ),
+              ),
+              SizedBox(height: 176.h),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (ctx) => MainScreen()));
+                },
+                child: Ink(
+                  width: 305.w,
+                  height: 44.h,
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6.r),
+                    color: Colors.yellow,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SizedBox(),
+                      Text(
+                        "Sign In",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                      Icon(Icons.login_outlined, size: 26.w),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Align(
+                alignment: Alignment.center,
+                child: RichText(
+                  text: TextSpan(
+                    text: "Don't have an account?",
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.4),
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "Sign up",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 24.h),
+            ],
+          ),
         ),
       ),
     );

@@ -5,6 +5,8 @@ import 'package:flutter_3_oy_imtixon/repository/user_repository.dart';
 import 'package:flutter_3_oy_imtixon/views/sign_in_screen/screen/sign_in_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../view_model/validator.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -18,9 +20,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool isRegister = false;
 
   bool isObscore = true;
   bool checkBox = true;
+
+  Future<void> register() async {
+    if (_formKey.currentState!.validate()) {
+      final userProfileModel = UserProfileModel(
+        address: "",
+        name: userNameController.text,
+      );
+      final userModel = UserModel(
+        id: "",
+        email: emailController.text,
+        phone: userNameController.text,
+        profile: userProfileModel,
+        password: passwordController.text,
+      );
+      setState(() {
+        isRegister = true;
+      });
+      if (await repo.register(userModel)) {
+        if (mounted) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (ctx) => SignInScreen()));
+        }
+        setState(() {
+          isRegister = false;
+        });
+      } else {
+        if (mounted) {
+          setState(() {
+            isRegister = false;
+          });
+
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Bunday Foydalanuvchi oldin royhatdan otgan !")));
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,6 +131,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         prefixIcon: Icon(Icons.email_outlined),
                         hintText: "hello.carrotlabs@gmail.com",
                       ),
+                      validator: Validators.validateEmail,
                     ),
                     SizedBox(height: 40.h),
                     Text(
@@ -107,6 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         prefixIcon: Icon(Icons.person_2_outlined),
                         hintText: "John Doe",
                       ),
+                      validator: Validators.validateUsername,
                     ),
                     SizedBox(height: 40.h),
                     Text(
@@ -121,6 +164,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     TextFormField(
                       obscureText: isObscore,
                       controller: passwordController,
+                      validator: Validators.validatePassword,
                       decoration: InputDecoration(
                         hintText: "• • • • • • • •",
                         prefixIcon: Icon(Icons.lock_outline),
@@ -177,26 +221,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               SizedBox(height: 36.h),
               InkWell(
-                onTap: () async {
-                  final userProfileModel = UserProfileModel(
-                    address: "",
-                    name: userNameController.text,
-                  );
-                  final userModel = UserModel(
-                    id: "",
-                    email: emailController.text,
-                    phone: userNameController.text,
-                    // cart: [],
-                    // orders: [],
-                    profile: userProfileModel,
-                    password: passwordController.text,
-                  );
-                  await repo.logInSave(userModel);
-                  if (context.mounted) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (ctx) => SignInScreen()));
-                  }
-                },
+                onTap: isRegister
+                    ? () {}
+                    : () async {
+                        await register();
+                      },
                 child: Ink(
                   width: 305.w,
                   height: 44.h,
@@ -209,14 +238,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const SizedBox(),
-                      Text(
-                        "Sign Up",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                          fontSize: 12.sp,
-                        ),
-                      ),
+                      isRegister
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                                fontSize: 12.sp,
+                              ),
+                            ),
                       Icon(Icons.login_outlined, size: 26.w),
                     ],
                   ),

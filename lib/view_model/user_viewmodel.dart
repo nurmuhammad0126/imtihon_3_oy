@@ -9,7 +9,7 @@ class UserViewmodel {
     final users = await repo.getUsers() as List<UserModel>;
     for (var user in users) {
       if (user.email == email && user.password.toString() == password) {
-        repo.logInSave(user);
+        await repo.logInSave(user);
         return true;
       }
     }

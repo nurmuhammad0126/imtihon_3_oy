@@ -1,16 +1,38 @@
 import 'package:flutter/material.dart';
 
+import '../../../repository/user_repository.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_images.dart';
 import '../../single_products/profile_showModal.dart';
+import '../../splash_screen/screen/splash_1_screen.dart';
 import '../widgets/profile_cards.dart';
 
 class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({super.key});
+  UserProfileScreen({super.key});
+  final userRepo = UserRepository();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.yellow,
+        actions: [
+          Text("Log Out"),
+          IconButton(
+              onPressed: () async {
+                await userRepo.logOut();
+                if (context.mounted) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Splash1Screen(),
+                      ),
+                      (newRoute) => true);
+                }
+              },
+              icon: Icon(Icons.logout))
+        ],
+      ),
       body: Column(
         children: [
           Container(

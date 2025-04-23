@@ -27,7 +27,7 @@ class UserModel {
 
     final cartData = cartMap.entries
         .map(
-          (e) => CartItemModel.fromJson(productId: e.key, json: e.value),
+          (e) => CartItemModel.fromJson(id: e.key, json: e.value),
         )
         .toList();
     final orderData = orderMap.entries

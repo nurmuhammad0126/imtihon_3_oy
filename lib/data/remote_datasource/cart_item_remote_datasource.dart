@@ -8,22 +8,31 @@ class CartItemRemoteDatasource {
       "https://exam3-85adf-default-rtdb.firebaseio.com/exam3/users";
 
   Future<List<CartItemModel>?> getCartItems(String userId) async {
+  try {
     final url = Uri.parse("$_baseUrl/$userId/cart.json");
-
     final response = await http.get(url);
 
-    if (response.statusCode == 200 && response.body != "null") {
+    if (response.statusCode == 200) {
+      if (response.body == "null" || response.body.isEmpty) {
+        return [];
+      }
+      
       final data = jsonDecode(response.body) as Map<String, dynamic>;
 
       return data.entries
           .map(
-            (e) => CartItemModel.fromJson(productId: e.key, json: e.value),
+            (e) => CartItemModel.fromJson(id: e.key, json: e.value),
           )
           .toList();
+    } else {
+      print("Failed to load cart items: ${response.statusCode}");
     }
-
-    return null;
+  } catch (e) {
+    print("Error in fetching cart items: $e");
   }
+  return null;
+}
+
 
   Future<bool> addCartItem(String userId, CartItemModel cartItem) async {
     final url = Uri.parse("$_baseUrl/$userId/cart.json");

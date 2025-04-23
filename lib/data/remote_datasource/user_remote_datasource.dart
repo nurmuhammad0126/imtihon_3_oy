@@ -11,15 +11,20 @@ class UserRemoteDatasource {
     final url = Uri.parse("$_baseUrl.json");
     final response = await http.get(url);
     if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      return data.entries
+
+      try {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+      final users = data.entries
           .map(
             (e) => UserModel.fromJson(e.key, e.value),
           )
           .toList();
-    } else {
-      return null;
-    }
+        return users;
+      } catch (e) {
+        print("XAtolik Users larni olishda ->>> $e");
+      }
+    } 
+    return null;
   }
 
   Future<bool> addUser(UserModel user) async {
