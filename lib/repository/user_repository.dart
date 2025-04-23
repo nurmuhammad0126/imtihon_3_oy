@@ -37,4 +37,8 @@ class UserRepository {
     userRemoteDatasource.addUser(user);
     return true;
   }
+
+  Future<void> updateUserRemote(UserModel user)async{
+    await userRemoteDatasource.updateUser(user);
+  }
 }

@@ -33,7 +33,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     }
     if (_formKey.currentState!.validate()) {
       try {
-        await userViewModel.updatePassword(login, newPassword);
+        final email = Validators.validateEmail(login) == null ? login : null;
+        final phone =
+            Validators.validatePhoneNumber(login) == null ? login : null;
+        print(
+            "+========================================================+========================================================");
+
+        print(email);
+        print(phone);
+        print(
+            "+========================================================+========================================================");
+        if (email != null) {
+          await userViewModel.updateEmailPassword(email, newPassword);
+        } else if (phone != null) {
+          await userViewModel.updatePhonePassword(phone, newPassword);
+        }
         setState(() {
           isTrue = false;
           message = 'Parol muvaffaqiyatli yangilandi!';
@@ -42,7 +56,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         loginController.clear();
         newPasswordController.clear();
         return true;
-        
       } catch (e) {
         setState(() {
           isTrue = false;
@@ -75,12 +88,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             children: [
               TextFormField(
                 controller: loginController,
-                validator: Validators.validateEmail,
+                validator: Validators.validateUser,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  labelText: 'Email',
+                  labelText: 'Email or Phone number',
                   labelStyle: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,

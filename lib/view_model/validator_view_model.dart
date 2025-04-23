@@ -35,4 +35,48 @@ class Validators {
 
     return null;
   }
+
+  static String? validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Telefon raqam kiritilishi kerak';
+    }
+
+    final phoneRegex = RegExp(r'^\+\d{3} \d{2} \d{3} \d{2} \d{2}$');
+    if (!phoneRegex.hasMatch(value)) {
+      return 'Telefon raqam formati noto‘g‘ri: +999 90 000 00 00';
+    }
+
+    return null;
+  }
+
+  static String? validateUser(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Telefon raqam kiritilishi kerak';
+    }
+    bool isValidate = false;
+    String error = "";
+    final phoneRegex = RegExp(r'^\+\d{3} \d{2} \d{3} \d{2} \d{2}$');
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+    if (!phoneRegex.hasMatch(value)) {
+      isValidate = false;
+      error =
+          "Iltimos tog'ri Email yoki telefon nomer kiriting \n+999 90 000 00 00 ";
+    } else {
+      isValidate = true;
+    }
+    if (isValidate == false) {
+      if (!emailRegex.hasMatch(value)) {
+        error =
+            "Iltimos tog'ri Email yoki telefon nomer kiriting \nsalom@gmail.com ";
+      } else {
+        isValidate = true;
+      }
+    }
+    if (isValidate) {
+      return null;
+    } else {
+      return error;
+    }
+  }
 }

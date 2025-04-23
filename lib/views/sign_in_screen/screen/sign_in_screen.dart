@@ -27,7 +27,7 @@ class _SignInScreenState extends State<SignInScreen> {
       isLogin = true;
     });
     final user = await viewModel.login(
-        email: emailController.text, password: passwordController.text);
+        login: emailController.text, password: passwordController.text);
     if (user) {
       setState(() {
         isLogin = false;
@@ -123,7 +123,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       controller: emailController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.person_2_outlined),
-                        hintText: "UserName",
+                        hintText: "Email or Phone number",
                       ),
                     ),
                     SizedBox(height: 40.h),

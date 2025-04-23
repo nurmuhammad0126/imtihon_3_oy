@@ -2,27 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FilterBottomSheet extends StatefulWidget {
-  const FilterBottomSheet({super.key});
+  const FilterBottomSheet({super.key, required Map<String, dynamic> initialFilters});
 
   @override
   State<FilterBottomSheet> createState() => _FilterBottomSheetState();
-
-  static Future<void> show(BuildContext context) {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (context) => const FilterBottomSheet(),
-    );
-  }
 }
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
-  int _selectedGender = 2; // 0=Men, 1=Women, 2=Both
+  int _selectedGender = 2; 
   final _minPriceController = TextEditingController();
   final _maxPriceController = TextEditingController();
+  double _minRating = 0.0;
   final List<bool> _selectedColors = [true, true, true, true, true];
   final List<Color> _colors = [
     Colors.red,
@@ -35,8 +25,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   int get _activeFilterCount {
     int count = 0;
     if (_selectedGender != 2) count++;
-    if (_minPriceController.text.isNotEmpty || _maxPriceController.text.isNotEmpty) count++;
+    if (_minPriceController.text.isNotEmpty ||
+        _maxPriceController.text.isNotEmpty) count++;
     if (_selectedColors.contains(false)) count++;
+    if (_minRating > 0) count++;
     return count;
   }
 
@@ -45,6 +37,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       _selectedGender = 2;
       _minPriceController.clear();
       _maxPriceController.clear();
+      _minRating = 0.0;
       for (int i = 0; i < _selectedColors.length; i++) {
         _selectedColors[i] = true;
       }
@@ -64,6 +57,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       'maxPrice': _maxPriceController.text.isNotEmpty
           ? double.tryParse(_maxPriceController.text)
           : null,
+      'minRating': _minRating,
       'colors': [
         if (_selectedColors[0]) 'Red',
         if (_selectedColors[1]) 'Blue',
@@ -72,7 +66,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         if (_selectedColors[4]) 'Purple',
       ],
     };
-    Navigator.pop(context);
+    Navigator.pop(context, filters);
   }
 
   @override
@@ -83,6 +77,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       ),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,10 +96,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               ),
             ),
             SizedBox(height: 24.h),
-
-            // Header
             Text(
-              'SPEAKERS',
+              'FILTERS',
               style: TextStyle(fontSize: 18.h, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 24.h),
@@ -174,6 +170,32 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 _colors.length,
                 (index) => _buildColorChip(_colors[index], index),
               ),
+            ),
+            SizedBox(height: 24.h),
+
+
+            _buildSectionHeader('Minimum Rating'),
+            SizedBox(height: 12.h),
+            Row(
+              children: [
+                Text('${_minRating.toStringAsFixed(1)} ★',
+                    style: TextStyle(fontSize: 14.sp)),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: Slider(
+                    value: _minRating,
+                    min: 0,
+                    max: 5,
+                    divisions: 10,
+                    label: _minRating.toStringAsFixed(1),
+                    onChanged: (value) {
+                      setState(() {
+                        _minRating = value;
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             SizedBox(height: 32.h),
 
@@ -258,7 +280,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
   Widget _buildColorChip(Color color, int index) {
     return ChoiceChip(
-      label: Text(''),
+      label: const Text(''),
       selected: _selectedColors[index],
       onSelected: (selected) {
         setState(() {
@@ -267,7 +289,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       },
       backgroundColor: color.withOpacity(0.2),
       selectedColor: color,
-      shape: CircleBorder(),
+      shape: const CircleBorder(),
       padding: EdgeInsets.all(10.w),
     );
   }

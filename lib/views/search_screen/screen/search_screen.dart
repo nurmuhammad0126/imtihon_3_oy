@@ -4,7 +4,7 @@ import 'package:flutter_3_oy_imtixon/view_model/product_view_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../home_screen/widgets/product_container.dart';
-import '../widgets/recent_searches.dart';
+
 import '../widgets/search_field.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -58,21 +58,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       });
                     }),
                     SizedBox(height: 24.h),
-                    Container(
-                      height: 1,
-                      width: double.infinity,
-                      color: const Color.fromARGB(255, 137, 136, 136),
-                    ),
-                    SizedBox(height: 32.h),
-                    Text(
-                      "recent searches",
-                      style: TextStyle(
-                          fontSize: 18.sp, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 20.h),
-                    const RecentSearches(h1text: 'Beasund 1'),
-                    const RecentSearches(h1text: 'Beasund 1'),
-                    const RecentSearches(h1text: 'Beasund 1'),
                     SizedBox(height: 24.h),
                     Text(
                       "popular items",

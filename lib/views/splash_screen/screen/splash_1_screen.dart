@@ -56,7 +56,12 @@ class _Splash1ScreenState extends State<Splash1Screen> {
       body: Center(
         child: Text(
           "ONLINE MARKET",
-          style: TextStyle(fontSize: 40),
+          style: TextStyle(
+            fontSize: 40,
+            color: Colors.amber,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+          ),
         ),
       ),
     );

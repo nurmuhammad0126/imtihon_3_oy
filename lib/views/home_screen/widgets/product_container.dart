@@ -32,10 +32,11 @@ class ProductContainer extends StatelessWidget {
               height: 113.h,
               child: Image.network(image, height: 120.h, width: 190.w),
             ),
-
-            Text(
-              title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
             ),
             Text(number, style: TextStyle(fontSize: 18)),
           ],

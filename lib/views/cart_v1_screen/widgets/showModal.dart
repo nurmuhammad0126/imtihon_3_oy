@@ -92,7 +92,7 @@ class Showmodal extends StatelessWidget {
                     price: "\$2,200",
                     title: "Beosound Balance",
                   ),
-                  CheckOutButton(),
+                  CheckOutButton(onTap: (){},),
                 ],
               ),
             ),

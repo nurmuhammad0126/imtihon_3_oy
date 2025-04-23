@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FilterChipsSection extends StatefulWidget {
-  const FilterChipsSection({super.key});
+  final Function(String) onFilterChanged;
+
+  const FilterChipsSection({
+    super.key,
+    required this.onFilterChanged,
+  });
 
   @override
   State<FilterChipsSection> createState() => _FilterChipsSectionState();
@@ -11,11 +16,13 @@ class FilterChipsSection extends StatefulWidget {
 class _FilterChipsSectionState extends State<FilterChipsSection> {
   final List<String> filters = [
     'View all',
-    'Portable',
-    'Multiroom',
-    'Architecture',
+    'Best rated',
+    'Expensive first',
+    'Cheapest first',
+    'Count low',
+    'Count high',
   ];
-  String selectedFilter = 'View all'; // Default selected filter
+  String selectedFilter = 'View all';
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +31,9 @@ class _FilterChipsSectionState extends State<FilterChipsSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header row with "View all" text and filter icon
           Padding(
             padding: EdgeInsets.only(bottom: 12.h),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'SPEAKERS',
@@ -38,17 +43,9 @@ class _FilterChipsSectionState extends State<FilterChipsSection> {
                     letterSpacing: 2,
                   ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.tune, size: 24.sp),
-                  onPressed: () {
-                    // Handle filter icon action here
-                  },
-                ),
               ],
             ),
           ),
-
-          // Filter Chips
           SizedBox(
             height: 40.h,
             child: ListView.separated(
@@ -63,6 +60,7 @@ class _FilterChipsSectionState extends State<FilterChipsSection> {
                     setState(() {
                       selectedFilter = filter;
                     });
+                    widget.onFilterChanged(filter);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(

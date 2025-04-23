@@ -51,32 +51,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 35.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Browse categories",
-                    style:
-                        TextStyle(fontSize: 22.w, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 20.h),
-                  SizedBox(
-                    height: 248.h + 32.w,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: categories.length,
-                      itemBuilder: (context, index) {
-                        final category = categories[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CategoriesV1Screen(
-                                        category: category)));
-                          },
-                          child: CategoryContainer(
-                            category: category,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Browse categories",
+                      style: TextStyle(
+                          fontSize: 22.w, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 20.h),
+                    SizedBox(
+                      height: 248.h + 32.w,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: categories.length,
+                        itemBuilder: (context, index) {
+                          final category = categories[index];
+                          return GestureDetector(
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -84,20 +76,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                       builder: (context) => CategoriesV1Screen(
                                           category: category)));
                             },
-                          ),
-                        );
-                      },
+                            child: CategoryContainer(
+                              category: category,
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CategoriesV1Screen(
+                                                category: category)));
+                              },
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 30.h),
-                  Text(
-                    "Products",
-                    style:
-                        TextStyle(fontSize: 22.w, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 20.h),
-                  Expanded(
-                    child: GridView.builder(
+                    SizedBox(height: 30.h),
+                    Text(
+                      "Products",
+                      style: TextStyle(
+                          fontSize: 22.w, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 20.h),
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       padding: EdgeInsets.only(bottom: 20.h),
                       itemCount: products.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -114,8 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
     );

@@ -4,13 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class BigCategoryContainer extends StatefulWidget {
   final List<String> titles;
   final List<String> images;
-  final List<String> numbers;
 
   const BigCategoryContainer({
     super.key,
     required this.titles,
     required this.images,
-    required this.numbers,
   });
 
   @override
@@ -53,14 +51,6 @@ class _BigCategoryContainerState extends State<BigCategoryContainer> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 30.sp,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20.w),
-                        child: Text(
-                          widget.numbers[index],
-                          style: TextStyle(fontSize: 20.sp),
-                          textAlign: TextAlign.center,
                         ),
                       ),
                     ],

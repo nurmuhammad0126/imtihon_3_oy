@@ -14,10 +14,10 @@ class UserViewmodel {
   UserModel? userGlobal;
 
   //! LOGIN
-  Future<bool> login({required String email, required String password}) async {
+  Future<bool> login({required String login, required String password}) async {
     final users = await repo.getUsers() as List<UserModel>;
     for (var user in users) {
-      if (user.email == email && user.password.toString() == password) {
+      if ((user.email == login || user.phone == login) && user.password.toString() == password) {
         await repo.logInSave(user);
         userGlobal = user;
         return true;
@@ -48,7 +48,7 @@ class UserViewmodel {
   }
 
   // Update password
-  Future<void> updatePassword(String email, String newPassword) async {
+  Future<void> updateEmailPassword(String email, String newPassword) async {
     final users = await repo.getUsers();
 
     if (users == null || users.isEmpty) {
@@ -74,4 +74,55 @@ class UserViewmodel {
       throw Exception("Foydalanuvchi topilmadi yoki xatolik yuz berdi.");
     }
   }
+
+
+
+  Future<void> updatePhonePassword(String phone, String newPassword) async {
+    final users = await repo.getUsers();
+
+    if (users == null || users.isEmpty) {
+      throw Exception("Foydalanuvchilar topilmadi!");
+    }
+
+    try {
+      final entry = users
+          .firstWhere((t) => t.phone.trim() == phone.trim())
+          .copyWith(password: newPassword);
+
+      final patchUrl =
+          'https://exam3-85adf-default-rtdb.firebaseio.com/exam3/users/${entry.id}.json';
+
+      final resp = await http.patch(
+        Uri.parse(patchUrl),
+        body: jsonEncode(entry.toJson()),
+      );
+
+      print("UPDATE RESPONSE: ${jsonDecode(resp.body)}");
+    } catch (e) {
+      print("FOYDALANUVCHI TOPILMADI yoki xatolik: $e");
+      throw Exception("Foydalanuvchi topilmadi yoki xatolik yuz berdi.");
+    }
+  }
+
+
+  Future<void> update({
+    required String name,
+    required String email,
+    required String phone,
+    required String password,
+    required String adress,
+  }) async {
+    if (userGlobal != null) {
+      userGlobal = userGlobal!.copyWith(
+          profile: userGlobal!.profile.copyWith(name: name, address: adress),
+          email: email,
+          phone: phone,
+          password: password);
+
+      await repo.updateUserRemote(userGlobal!);
+      await repo.logOut();
+      await repo.logInSave(userGlobal!);
+    }
+  }
+
 }

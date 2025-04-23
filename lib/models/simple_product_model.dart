@@ -6,20 +6,22 @@ class SimpleProductModel {
   final double price;
   final double rating;
   final String image;
+  final int count;
 
-  SimpleProductModel({
-    required this.image,
-    required this.id,
-    required this.name,
-    required this.color,
-    required this.gender,
-    required this.price,
-    required this.rating,
-  });
+  SimpleProductModel(
+      {required this.image,
+      required this.id,
+      required this.name,
+      required this.color,
+      required this.gender,
+      required this.price,
+      required this.rating,
+      required this.count});
 
   factory SimpleProductModel.fromJson(String id, Map<String, dynamic> json) {
     return SimpleProductModel(
       id: id,
+      count: json['count'] ?? 0,
       image: json['image'] ?? '',
       name: json['name'] ?? '',
       color: json['color'] ?? '',
@@ -31,7 +33,8 @@ class SimpleProductModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'image':image,
+      "count": count,
+      'image': image,
       'id': id,
       'name': name,
       'color': color,

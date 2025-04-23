@@ -90,7 +90,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               child: Icon(Icons.shopping_bag),
             ),
-            label: 'Order',
+            label: 'Cart',
           ),
           BottomNavigationBarItem(
             icon: Container(

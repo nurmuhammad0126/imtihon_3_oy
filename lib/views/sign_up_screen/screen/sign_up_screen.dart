@@ -16,7 +16,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final repo = UserRepository();
-  final userNameController = TextEditingController();
+  final userPhoneController = TextEditingController();
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -29,12 +29,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (_formKey.currentState!.validate()) {
       final userProfileModel = UserProfileModel(
         address: "",
-        name: userNameController.text,
+        name: "",
       );
       final userModel = UserModel(
         id: "",
         email: emailController.text,
-        phone: userNameController.text,
+        phone: userPhoneController.text,
         profile: userProfileModel,
         password: passwordController.text,
       );
@@ -135,7 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     SizedBox(height: 40.h),
                     Text(
-                      "Username",
+                      "Phone number",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 12.sp,
@@ -144,12 +144,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     SizedBox(height: 8.h),
                     TextFormField(
-                      controller: userNameController,
+                      controller: userPhoneController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.person_2_outlined),
-                        hintText: "John Doe",
+                        hintText: "+999 90 000 00 00",
                       ),
-                      validator: Validators.validateUsername,
+                      validator: Validators.validatePhoneNumber,
                     ),
                     SizedBox(height: 40.h),
                     Text(

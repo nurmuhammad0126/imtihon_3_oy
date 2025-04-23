@@ -21,7 +21,7 @@ class ProfileCards extends StatefulWidget {
 class _ProfileCardsState extends State<ProfileCards> {
   @override
   Widget build(BuildContext context) {
-    print(widget.products!);
+    int lengProduct = (widget.products!.length);
     return Container(
       width: 305,
       height: 313,
@@ -81,9 +81,10 @@ class _ProfileCardsState extends State<ProfileCards> {
                       width: 10,
                     ),
                     scrollDirection: Axis.horizontal,
-                    itemCount: 3,
-                    itemBuilder: (context, count) =>
-                        ProfileOrder(image: "", title: ""),
+                    itemCount: lengProduct,
+                    itemBuilder: (context, index) => ProfileOrder(
+                        image: widget.products![index].image.toString(),
+                        title: widget.products![index].productName.toString()),
                   ),
                 ),
               ),
@@ -111,19 +112,22 @@ class _ProfileCardsState extends State<ProfileCards> {
                     ),
                   ),
                   Spacer(),
-                  Container(
-                    width: 145,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: AppColors.yellow,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Track",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: 145,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: AppColors.yellow,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Track",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

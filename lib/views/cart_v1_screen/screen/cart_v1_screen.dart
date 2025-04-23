@@ -104,7 +104,7 @@ class CartV1Screen extends StatelessWidget {
                       builder: (builder) => Showmodal(),
                     );
                   },
-                  child: CheckOutButton(),
+                  child: CheckOutButton(onTap: (){},),
                 ),
               ],
             ),
