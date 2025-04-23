@@ -18,9 +18,8 @@ class BigCategoryContainer extends StatefulWidget {
 }
 
 class _BigCategoryContainerState extends State<BigCategoryContainer> {
-  final ScrollController _scrollController = ScrollController();
+  final PageController _pageController = PageController();
   int _currentIndex = 0;
-  final double _itemWidth = 345.w;
 
   @override
   Widget build(BuildContext context) {
@@ -31,49 +30,42 @@ class _BigCategoryContainerState extends State<BigCategoryContainer> {
         width: 345.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(32.w),
-          color: Color.fromARGB(255, 160, 161, 162),
+          color: const Color.fromARGB(255, 160, 161, 162),
         ),
         child: Column(
           children: [
             Expanded(
-              child: NotificationListener<ScrollNotification>(
-                onNotification: (notification) {
-                  if (notification is ScrollEndNotification) {
-                    final page =
-                        (_scrollController.offset / _itemWidth).round();
-                    setState(() {
-                      _currentIndex = page;
-                    });
-                  }
-                  return false;
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: widget.titles.length,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
                 },
-                child: ListView.builder(
-                  controller: _scrollController,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: widget.titles.length,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                      width: _itemWidth,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Image.network(widget.images[index], height: 200.h),
-                          Text(
-                            widget.titles[index],
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30.sp,
-                            ),
-                          ),
-                          Text(
-                            widget.numbers[index],
-                            style: TextStyle(fontSize: 22.sp),
-                          ),
-                        ],
+                itemBuilder: (context, index) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Image.network(widget.images[index], height: 200.h),
+                      Text(
+                        widget.titles[index],
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                        ),
                       ),
-                    );
-                  },
-                ),
+                      Padding(
+                        padding: EdgeInsets.all(20.w),
+                        child: Text(
+                          widget.numbers[index],
+                          style: TextStyle(fontSize: 20.sp),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
             // Page Indicator
@@ -88,10 +80,9 @@ class _BigCategoryContainerState extends State<BigCategoryContainer> {
                     margin: EdgeInsets.symmetric(horizontal: 4.w),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color:
-                          _currentIndex == index
-                              ? Colors.white
-                              : Colors.white.withOpacity(0.5),
+                      color: _currentIndex == index
+                          ? Colors.white
+                          : Colors.white.withOpacity(0.5),
                     ),
                   );
                 }),
@@ -105,7 +96,7 @@ class _BigCategoryContainerState extends State<BigCategoryContainer> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 }

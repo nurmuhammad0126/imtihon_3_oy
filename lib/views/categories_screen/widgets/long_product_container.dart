@@ -8,12 +8,12 @@ class LongProductContainer extends StatelessWidget {
   final double rating;
 
   const LongProductContainer({
-    Key? key,
+    super.key,
     required this.title,
     required this.image,
     required this.number,
     required this.rating,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +76,11 @@ class LongProductContainer extends StatelessWidget {
                             child: Icon(
                               Icons.star,
                               size: 10.w,
-                              color:
-                                  index < rating.floor()
-                                      ? Colors.amber
-                                      : index < rating
-                                      ? Colors.amber.withOpacity(0.5)
+                              color: index < rating.floor()
+                                  ? Colors.amber
+                                  : index < rating
+                                      ? const Color.fromARGB(255, 206, 189, 139)
+                                          .withOpacity(0.5)
                                       : Colors.grey[300],
                             ),
                           );

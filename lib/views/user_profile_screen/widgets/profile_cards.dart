@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_3_oy_imtixon/models/cart_item_model.dart';
 import 'package:flutter_3_oy_imtixon/utils/app_colors.dart';
-import 'package:flutter_3_oy_imtixon/utils/app_images.dart';
 import 'package:flutter_3_oy_imtixon/views/user_profile_screen/widgets/profile_order.dart';
 
-class ProfileCards extends StatelessWidget {
-  const ProfileCards({super.key});
+class ProfileCards extends StatefulWidget {
+  final List<CartItemModel>? products;
+  final String idOrder;
+  final String status;
+  const ProfileCards({
+    super.key,
+    required this.idOrder,
+    required this.status,
+    required this.products,
+  });
 
   @override
+  State<ProfileCards> createState() => _ProfileCardsState();
+}
+
+class _ProfileCardsState extends State<ProfileCards> {
+  @override
   Widget build(BuildContext context) {
+    print(widget.products!);
     return Container(
       width: 305,
       height: 313,
@@ -27,7 +41,7 @@ class ProfileCards extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    "Order #CS1020",
+                    "Order #${widget.idOrder}",
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -35,7 +49,7 @@ class ProfileCards extends StatelessWidget {
                   ),
                   Spacer(),
                   Text(
-                    "•  In Progress",
+                    "•  ${widget.status}",
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -59,13 +73,18 @@ class ProfileCards extends StatelessWidget {
               width: double.infinity,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ProfileOrder(image: AppImages.image1, title: "Beosound 1"),
-                    ProfileOrder(image: AppImages.image2, title: "Beosound…"),
-                    ProfileOrder(image: AppImages.image3, title: "Beoplay H…"),
-                  ],
+                child: SizedBox(
+                  height: 120,
+                  width: double.infinity,
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(
+                      width: 10,
+                    ),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 3,
+                    itemBuilder: (context, count) =>
+                        ProfileOrder(image: "", title: ""),
+                  ),
                 ),
               ),
             ),

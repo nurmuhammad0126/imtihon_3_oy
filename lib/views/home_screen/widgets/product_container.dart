@@ -6,11 +6,11 @@ class ProductContainer extends StatelessWidget {
   final String image;
   final String number;
   const ProductContainer({
-    Key? key,
+    super.key,
     required this.title,
     required this.image,
     required this.number,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

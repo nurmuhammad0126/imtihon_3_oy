@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_3_oy_imtixon/views/splash_screen/screen/splash_1_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
