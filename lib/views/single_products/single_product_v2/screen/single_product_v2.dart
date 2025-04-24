@@ -128,7 +128,7 @@ class _SingleProductV2State extends State<SingleProductV2> {
                         ),
                       ),
                       Spacer(),
-                      AddButton(),
+                      AddButton(onTap: (){},),
                     ],
                   ),
                 ),

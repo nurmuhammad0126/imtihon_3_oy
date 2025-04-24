@@ -17,20 +17,24 @@ class UserCartViewmodel {
   final _baseUrl =
       "https://exam3-85adf-default-rtdb.firebaseio.com/exam3/users";
 
-  Future<void> addUserCart(CartItemModel cartItem) async {
+  Future<bool?> addUserCart(CartItemModel cartItem) async {
     if (userViewmodel.userGlobal != null) {
       if (userViewmodel.userGlobal!.cart == null) {
         userViewmodel.userGlobal =
             userViewmodel.userGlobal!.copyWith(cart: [cartItem]);
+        return true;
       } else {
         userViewmodel.userGlobal!.cart!.add(cartItem);
       }
+
       final url = Uri.parse("$_baseUrl/${userViewmodel.userGlobal!.id}.json");
 
       final encodedData = userViewmodel.userGlobal!.toJson();
 
       await http.patch(url, body: jsonEncode(encodedData));
+      return true;
     }
+    return false;
   }
 
   Future<void> updateCartQuantity(

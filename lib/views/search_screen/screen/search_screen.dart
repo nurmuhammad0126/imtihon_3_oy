@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_3_oy_imtixon/models/product_model.dart';
-import 'package:flutter_3_oy_imtixon/view_model/product_view_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../models/product_model.dart';
+import '../../../view_model/product_view_model.dart';
+import '../../../view_model/user_cart_viewmodel.dart';
 import '../../home_screen/widgets/product_container.dart';
 
+import '../../single_products/single_product_v1/screen/single_product_v1.dart';
 import '../widgets/search_field.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -15,6 +17,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final userCartViewModel = UserCartViewmodel();
   final viewMOdel = ProductViewModel();
   List<ProductModel> products = [];
   bool isLoading = true;
@@ -76,10 +79,22 @@ class _SearchScreenState extends State<SearchScreen> {
                         mainAxisSpacing: 10.h,
                       ),
                       itemBuilder: (context, index) {
-                        return ProductContainer(
-                          title: products[index].name,
-                          image: products[index].image,
-                          number: "${products[index].price} \$",
+                        return GestureDetector(
+                          onTap: () async {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SingleProductV1(
+                                    productModel: products[index],
+                                  ),
+                                ));
+                            
+                          },
+                          child: ProductContainer(
+                            title: products[index].name,
+                            image: products[index].image,
+                            number: "${products[index].price} \$",
+                          ),
                         );
                       },
                     ),

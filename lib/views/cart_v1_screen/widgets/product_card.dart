@@ -5,7 +5,9 @@ import 'package:flutter_3_oy_imtixon/view_model/user_cart_viewmodel.dart';
 
 class ProductCard extends StatefulWidget {
   final CartItemModel cartItem;
-  const ProductCard({super.key, required this.cartItem});
+  final VoidCallback totalPrice;
+  const ProductCard(
+      {super.key, required this.cartItem, required this.totalPrice});
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -62,13 +64,6 @@ class _ProductCardState extends State<ProductCard> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        // Text(
-
-                        //   style: TextStyle(
-                        //       fontSize: 12,
-                        //       fontWeight: FontWeight.bold,
-                        //       color: AppColors.textColor.withAlpha(125)),
-                        // ),
                         Text(
                           cart?.productPrice.toString() ?? "",
                           style: TextStyle(
@@ -97,7 +92,7 @@ class _ProductCardState extends State<ProductCard> {
                                   if (cart!.quantity! > 0) {
                                     count = cart!.quantity! - 1;
                                   }
-
+                                  widget.totalPrice();
                                   await userCartViewmodel.updateCartQuantity(
                                       cart!, count);
                                   cart = cart!.copyWith(quantity: count);
@@ -132,6 +127,8 @@ class _ProductCardState extends State<ProductCard> {
 
                                   await userCartViewmodel.updateCartQuantity(
                                       cart!, count);
+                                  widget.totalPrice();
+
                                   cart = cart!.copyWith(quantity: count);
                                   setState(() {});
                                 }

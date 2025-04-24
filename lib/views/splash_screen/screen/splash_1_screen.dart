@@ -29,6 +29,10 @@ class _Splash1ScreenState extends State<Splash1Screen> {
     if (user != null) {
       await Future.delayed(Duration(seconds: 2));
       userViewmodel.userGlobal = user;
+      final apiUser = await userViewmodel.getUserFromId(id: user.id);
+      if (apiUser) {
+        userRepo.logInSave(userViewmodel.userGlobal!);
+      }
 
       if (mounted) {
         Navigator.pushReplacement(

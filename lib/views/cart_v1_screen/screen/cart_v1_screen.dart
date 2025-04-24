@@ -20,18 +20,22 @@ class _CartV1ScreenState extends State<CartV1Screen> {
   @override
   void initState() {
     super.initState();
+    totalPriceFunc();
   }
 
   void totalPriceFunc() async {
     totalPrice = 0;
-    for (var item in viewModel.userGlobal!.cart!) {
-      totalPrice += item.productPrice?.toDouble() ?? 0;
+    await viewModel.getUserFromId(id: viewModel.userGlobal!.id);
+    if (viewModel.userGlobal != null && viewModel.userGlobal?.cart != null) {
+      for (var item in viewModel.userGlobal!.cart!) {
+        totalPrice = totalPrice + (item.quantity! * item.productPrice!);
+      }
     }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    totalPriceFunc();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -76,7 +80,8 @@ class _CartV1ScreenState extends State<CartV1Screen> {
                         itemBuilder: (ctx, index) {
                           final cartItem = viewModel.userGlobal!.cart![index];
                           return ProductCard(
-                           cartItem: cartItem,
+                            cartItem: cartItem,
+                            totalPrice: totalPriceFunc,
                           );
                         }),
                   ),

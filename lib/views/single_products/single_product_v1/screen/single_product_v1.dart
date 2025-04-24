@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_3_oy_imtixon/utils/app_images.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../models/cart_item_model.dart';
+import '../../../../models/product_model.dart';
+import '../../../../utils/app_images.dart';
+import '../../../../view_model/user_cart_viewmodel.dart';
 import '../../widgets/add_button.dart';
 import '../../widgets/color_selector.dart';
 import '../../widgets/page_indicator.dart';
 import '../../widgets/rating_dots.dart';
 
 class SingleProductV1 extends StatefulWidget {
-  const SingleProductV1({super.key});
+  final ProductModel productModel;
+  const SingleProductV1({super.key, required this.productModel});
 
   @override
   State<SingleProductV1> createState() => _SingleProductV1State();
@@ -23,6 +27,7 @@ class _SingleProductV1State extends State<SingleProductV1> {
     Colors.pink.shade100,
     Colors.black,
   ];
+  final userCartViewModel = UserCartViewmodel();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +55,12 @@ class _SingleProductV1State extends State<SingleProductV1> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset(AppImages.backicon, height: 24.h, width: 24.w),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(AppImages.backicon,
+                        height: 24.h, width: 24.w)),
                 PageIndicator(currentIndex: _currentPage, length: 3),
                 Image.asset(AppImages.bag, height: 24.h, width: 24.w),
               ],
@@ -73,12 +83,12 @@ class _SingleProductV1State extends State<SingleProductV1> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Speakers",
+                    widget.productModel.category,
                     style: TextStyle(color: Colors.grey, fontSize: 14.sp),
                   ),
                   SizedBox(height: 6.h),
                   Text(
-                    "Beosound Balance",
+                    widget.productModel.name,
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
@@ -88,7 +98,7 @@ class _SingleProductV1State extends State<SingleProductV1> {
                   RatingDots(),
                   SizedBox(height: 20.h),
                   Text(
-                    "\$1,600",
+                    "\$${widget.productModel.price}",
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
@@ -108,7 +118,25 @@ class _SingleProductV1State extends State<SingleProductV1> {
                     },
                   ),
                   SizedBox(height: 50.h),
-                  AddButton(),
+                  Expanded(
+                    child: AddButton(
+                      onTap: () async {
+                        final cartItem = CartItemModel(
+                            productId: widget.productModel.id,
+                            productName: widget.productModel.name,
+                            productPrice: widget.productModel.price,
+                            quantity: 1,
+                            image: widget.productModel.image);
+                        final res =
+                            await userCartViewModel.addUserCart(cartItem);
+                        if (res == true && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("Cartga muvofaqiyatli qoshli !")));
+                        }
+                        setState(() {});
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
