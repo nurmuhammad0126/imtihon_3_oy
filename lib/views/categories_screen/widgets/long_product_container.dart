@@ -42,7 +42,6 @@ class LongProductContainer extends StatelessWidget {
               ),
             ),
 
-            // ✅ Text and rating
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.h),

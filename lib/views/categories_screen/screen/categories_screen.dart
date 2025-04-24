@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_3_oy_imtixon/views/categories_screen/widgets/big_category_container.dart';
-import 'package:flutter_3_oy_imtixon/views/categories_screen/widgets/bottom_modal.dart';
-import 'package:flutter_3_oy_imtixon/views/categories_screen/widgets/filter_section.dart';
-import 'package:flutter_3_oy_imtixon/views/categories_screen/widgets/floating_action.dart';
-import 'package:flutter_3_oy_imtixon/views/categories_screen/widgets/long_product_container.dart';
+import 'package:flutter_3_oy_imtixon/models/product_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_3_oy_imtixon/models/category_model.dart';
-import 'package:flutter_3_oy_imtixon/models/simple_product_model.dart';
+
+import '../../../models/category_model.dart';
+import '../../../models/simple_product_model.dart';
+import '../../single_products/single_product_v1/screen/single_product_v1.dart';
+import '../widgets/big_category_container.dart';
+import '../widgets/bottom_modal.dart';
+import '../widgets/filter_section.dart';
+import '../widgets/floating_action.dart';
+import '../widgets/long_product_container.dart';
 
 class CategoriesV1Screen extends StatefulWidget {
   final CategoryModel category;
@@ -163,11 +166,30 @@ class _CategoriesV1ScreenState extends State<CategoriesV1Screen> {
                     itemCount: filteredProducts.length,
                     itemBuilder: (context, index) {
                       final product = filteredProducts[index];
-                      return LongProductContainer(
-                        title: product.name,
-                        image: product.image,
-                        number: "\$${product.price.toStringAsFixed(2)}",
-                        rating: product.rating,
+                      return GestureDetector(
+                        onTap: () async {
+                          final productModel = ProductModel(
+                              id: product.id,
+                              name: product.name,
+                              price: product.price,
+                              category: category.name,
+                              image: product.image,
+                              description: "",
+                              reviews: []);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SingleProductV1(
+                                  productModel: productModel,
+                                ),
+                              ));
+                        },
+                        child: LongProductContainer(
+                          title: product.name,
+                          image: product.image,
+                          number: "\$${product.price.toStringAsFixed(2)}",
+                          rating: product.rating,
+                        ),
                       );
                     },
                   ),

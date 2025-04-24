@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_3_oy_imtixon/models/product_model.dart';
-import 'package:flutter_3_oy_imtixon/models/category_model.dart';
-import 'package:flutter_3_oy_imtixon/view_model/category_view_model.dart';
-import 'package:flutter_3_oy_imtixon/view_model/product_view_model.dart';
-import 'package:flutter_3_oy_imtixon/views/home_screen/widgets/drawer_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../models/category_model.dart';
+import '../../../models/product_model.dart';
+import '../../../view_model/category_view_model.dart';
+import '../../../view_model/product_view_model.dart';
 import '../../categories_screen/screen/categories_screen.dart';
 import '../../single_products/single_product_v1/screen/single_product_v1.dart';
 import '../widgets/category_container.dart';
+import '../widgets/drawer_widget.dart';
 import '../widgets/product_container.dart';
 
 class HomeScreen extends StatefulWidget {
