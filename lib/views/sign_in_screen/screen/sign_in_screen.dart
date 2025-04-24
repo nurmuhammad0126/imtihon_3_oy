@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_3_oy_imtixon/view_model/user_viewmodel.dart';
-import 'package:flutter_3_oy_imtixon/views/sign_up_screen/screen/sign_up_screen.dart';
-import 'package:flutter_3_oy_imtixon/views/sms_screen/screen/sms_screen.dart';
+import 'package:flutter_3_oy_imtixon/view_model/validator_view_model.dart';
+import 'package:flutter_3_oy_imtixon/views/admin_screen/screen/product_screen/admin_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../view_model/user_viewmodel.dart';
 import '../../forget_password/screen/forget_password.dart';
+import '../../sign_up_screen/screen/sign_up_screen.dart';
+import '../../sms_screen/screen/sms_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -26,9 +28,24 @@ class _SignInScreenState extends State<SignInScreen> {
     setState(() {
       isLogin = true;
     });
+    final admin = await viewModel.loginAdmin(
+        login: emailController.text, password: passwordController.text);
+
     final user = await viewModel.login(
         login: emailController.text, password: passwordController.text);
-    if (user) {
+
+    if (admin) {
+      setState(() {
+        isLogin = false;
+      });
+      if (mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (ctx) => AdminScreen()),
+          (route) => false,
+        );
+      }
+    } else if (user) {
       setState(() {
         isLogin = false;
       });
@@ -60,6 +77,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         centerTitle: false,
         title: Row(
@@ -111,7 +129,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Username or Email",
+                      "PhoneNumber or Email",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 12.sp,
@@ -125,6 +143,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         prefixIcon: Icon(Icons.person_2_outlined),
                         hintText: "Email or Phone number",
                       ),
+                      validator: Validators.validateUser,
                     ),
                     SizedBox(height: 40.h),
                     Text(
@@ -139,6 +158,12 @@ class _SignInScreenState extends State<SignInScreen> {
                     TextFormField(
                       obscureText: isObscore,
                       controller: passwordController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Passwordga malumot kiriting";
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         hintText: "• • • • • • • •",
                         prefixIcon: Icon(Icons.lock_outline),

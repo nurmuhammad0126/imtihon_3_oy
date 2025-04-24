@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_3_oy_imtixon/models/user_model.dart';
-import 'package:flutter_3_oy_imtixon/models/user_profile_model.dart';
-import 'package:flutter_3_oy_imtixon/repository/user_repository.dart';
-import 'package:flutter_3_oy_imtixon/views/sign_in_screen/screen/sign_in_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../models/user_model.dart';
+import '../../../models/user_profile_model.dart';
+import '../../../view_model/user_viewmodel.dart';
 import '../../../view_model/validator_view_model.dart';
+import '../../sign_in_screen/screen/sign_in_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -15,7 +15,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final repo = UserRepository();
+  final userViewmodel = UserViewmodel();
   final userPhoneController = TextEditingController();
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
@@ -41,7 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         isRegister = true;
       });
-      if (await repo.register(userModel)) {
+      if (await userViewmodel.register(userModel)) {
         if (mounted) {
           Navigator.push(
               context, MaterialPageRoute(builder: (ctx) => SignInScreen()));

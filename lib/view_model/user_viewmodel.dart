@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_3_oy_imtixon/models/admin_model.dart';
 import 'package:flutter_3_oy_imtixon/models/user_model.dart';
 import 'package:flutter_3_oy_imtixon/repository/user_repository.dart';
 import 'package:http/http.dart' as http;
@@ -12,12 +13,50 @@ class UserViewmodel {
 
   final repo = UserRepository();
   UserModel? userGlobal;
+  AdminModel? adminGlobal;
 
+
+  // Admin= ========================================================================================================
+  Future<bool> loginAdmin({
+    required String login,
+    required String password,
+  }) async {
+    final url = Uri.parse(
+        "https://exam3-85adf-default-rtdb.firebaseio.com/exam3/admins.json");
+    final response = await http.get(url);
+
+    final res = jsonDecode(response.body);
+
+    if (res != null) {
+      if (res["email"].toString() == login.toString() &&
+          res["password"].toString() == password.toString()) {
+          res["id"] = "admins";
+        adminGlobal = AdminModel.fromJson(json: res);
+        repo.loginSaveAdmin(adminGlobal!);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  Future<void> logOutAdmin()async{
+    await repo.logoutAdmin();
+  }
+
+  Future<void> getAdmin()async{
+    adminGlobal =  await repo.getAdmin();
+  }
+
+
+
+// User============================================================================================================
   //! LOGIN
   Future<bool> login({required String login, required String password}) async {
     final users = await repo.getUsers() as List<UserModel>;
     for (var user in users) {
-      if ((user.email == login || user.phone == login) && user.password.toString() == password) {
+      if ((user.email == login || user.phone == login) &&
+          user.password.toString() == password) {
         await repo.logInSave(user);
         userGlobal = user;
         return true;
@@ -32,19 +71,25 @@ class UserViewmodel {
   }
 
   //! REGISTER
-  Future<void> register(UserModel user) async {
-    await repo.logInSave(user);
+  Future<bool> register(UserModel user) async {
+    return await repo.register(user);
   }
 
   //! GET user
-  Future<UserModel?> getUser({required String id}) async {
+  Future<void> getUser() async {
+    final user = await repo.getUser();
+    userGlobal = user;
+  }
+
+  Future<bool> getUserFromId({required String id}) async {
     final users = await repo.getUsers() as List<UserModel>;
     for (var user in users) {
       if (user.id == id) {
-        return user;
+        userGlobal = user;
+        return true;
       }
     }
-    return null;
+    return false;
   }
 
   // Update password
@@ -75,8 +120,6 @@ class UserViewmodel {
     }
   }
 
-
-
   Future<void> updatePhonePassword(String phone, String newPassword) async {
     final users = await repo.getUsers();
 
@@ -104,7 +147,6 @@ class UserViewmodel {
     }
   }
 
-
   Future<void> update({
     required String name,
     required String email,
@@ -124,5 +166,4 @@ class UserViewmodel {
       await repo.logInSave(userGlobal!);
     }
   }
-
 }

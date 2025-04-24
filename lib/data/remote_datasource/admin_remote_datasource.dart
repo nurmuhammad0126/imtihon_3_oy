@@ -16,7 +16,11 @@ class AdminRemoteDatasource {
 
       return data.entries
           .map(
-            (e) => AdminModel.fromJson(id: e.key, json: e.value),
+            (e) {
+              final json = e.value;
+              json["id"] = e.key;
+              return AdminModel.fromJson(json: json);
+            },
           )
           .toList();
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_3_oy_imtixon/repository/user_repository.dart';
 import 'package:flutter_3_oy_imtixon/view_model/user_viewmodel.dart';
+import 'package:flutter_3_oy_imtixon/views/admin_screen/screen/product_screen/admin_screen.dart';
 import 'package:flutter_3_oy_imtixon/views/main_screen.dart';
 import 'package:flutter_3_oy_imtixon/views/splash_screen/screen/splash_screen.dart';
 
@@ -14,6 +15,7 @@ class Splash1Screen extends StatefulWidget {
 class _Splash1ScreenState extends State<Splash1Screen> {
   final userRepo = UserRepository();
   final userViewmodel = UserViewmodel();
+
   @override
   void initState() {
     super.initState();
@@ -22,24 +24,20 @@ class _Splash1ScreenState extends State<Splash1Screen> {
 
   void isUser() async {
     final user = await userRepo.getUser();
+    final admin = await userRepo.getAdmin();
 
     if (user != null) {
       await Future.delayed(Duration(seconds: 2));
       userViewmodel.userGlobal = user;
 
-      print(
-          "##########################################################################################");
-      print(userViewmodel.userGlobal?.toJson());
-
-      print(
-          "##########################################################################################");
-      print(user.toJson());
-      print(
-          "##########################################################################################");
-
       if (mounted) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (ctx) => MainScreen()));
+      }
+    } else if (admin != null) {
+      if (mounted) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (ctx) => AdminScreen()));
       }
     } else {
       await Future.delayed(Duration(seconds: 2));

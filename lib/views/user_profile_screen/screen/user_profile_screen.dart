@@ -114,7 +114,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          userModel!.profile!.name ?? "No name",
+                                          userModel!.profile.name ?? "No name",
                                           style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold,

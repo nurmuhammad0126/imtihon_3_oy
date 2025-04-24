@@ -13,6 +13,22 @@ class CartItemModel {
     required this.image,
   });
 
+  CartItemModel copyWith({
+    String? productId,
+    String? productName,
+    double? productPrice,
+    int? quantity,
+    String? image,
+  }) {
+    return CartItemModel(
+      productId: productId ?? this.productId,
+      productName: productName ?? this.productName,
+      productPrice: productPrice ?? this.productPrice,
+      quantity: quantity ?? this.quantity,
+      image: image ?? this.image,
+    );
+  }
+
   factory CartItemModel.fromJson({
     required Map<String, dynamic> json,
     required String id,

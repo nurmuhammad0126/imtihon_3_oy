@@ -9,16 +9,18 @@ class AdminModel {
     required this.password,
   });
 
-  factory AdminModel.fromJson({required String id ,required Map<String, dynamic> json}) {
+  factory AdminModel.fromJson(
+      {required Map<String, dynamic> json}) {
     return AdminModel(
-      id: id,
-      email: json['email'] ?? '',
-      password: json['password'] ?? '',
+      id: json["id"],
+      email: json['email'],
+      password: json['password'].toString(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'id':id,
       'email': email,
       'password': password,
     };
