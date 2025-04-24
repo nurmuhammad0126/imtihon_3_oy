@@ -3,6 +3,7 @@ import 'package:flutter_3_oy_imtixon/models/product_model.dart';
 import 'package:flutter_3_oy_imtixon/models/category_model.dart';
 import 'package:flutter_3_oy_imtixon/view_model/category_view_model.dart';
 import 'package:flutter_3_oy_imtixon/view_model/product_view_model.dart';
+import 'package:flutter_3_oy_imtixon/views/home_screen/widgets/drawer_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../categories_screen/screen/categories_screen.dart';
@@ -44,8 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DrawerWidget(),
       appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+        centerTitle: true,
+        title: Text("Home"),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())

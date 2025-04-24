@@ -1,29 +1,42 @@
 import 'package:flutter/material.dart';
 
+import '../../../view_model/user_viewmodel.dart';
+import '../../peyment_method/screen/payment_method_screen.dart';
 import '../widgets/check_out_button.dart';
 import '../widgets/product_card.dart';
 import '../widgets/showModal.dart';
 
-class CartV1Screen extends StatelessWidget {
+class CartV1Screen extends StatefulWidget {
   const CartV1Screen({super.key});
 
   @override
+  State<CartV1Screen> createState() => _CartV1ScreenState();
+}
+
+class _CartV1ScreenState extends State<CartV1Screen> {
+  double totalPrice = 0;
+  final viewModel = UserViewmodel();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void totalPriceFunc() async {
+    totalPrice = 0;
+    for (var item in viewModel.userGlobal!.cart!) {
+      totalPrice += item.productPrice?.toDouble() ?? 0;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    totalPriceFunc();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: Padding(
-          padding: EdgeInsets.only(
-            left: 35,
-          ),
-          child: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.arrow_back,
-            ),
-          ),
-        ),
+        centerTitle: true,
         title: Text(
           "MY CART",
           style: TextStyle(
@@ -46,37 +59,34 @@ class CartV1Screen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          SizedBox(
-            height: 24,
-          ),
           Container(
             width: double.infinity,
             height: 550,
             color: Colors.white,
             child: Column(
-              spacing: 16,
               children: [
-                ProductCard(
-                  color: "Black",
-                  count: 4,
-                  image:
-                      "https://s3-alpha-sig.figma.com/img/b01e/0751/abe400a58c835ecdda80d219b0bc6740?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=o5ScbnGarLSGUisfu0e75KgIkv9NbGWMapQ~gPULnDyvvmiOmoAfDn6hht7GZ~xWn5JIkfjFYH34cD5IQ9-yYqn6FC7Ih~oGNge~UYorznXBlAJarB7nTKGqhORcChdBzJp6Lr1WAo3pD8kopJ5wp4~WpVoovL~nvj~DoOklV7nFkr8HM85DzUjdncczklEs1IoUoEs~~CDzKqj36DVk6x4ux2dzn4MnUvS-Zjj5bjzc5JLrw~ahX~D2DK-JEGQKZz~18iIluLlgL0S1URVnT97cSHuL57v28iodLbJMFLvFW3PeBlnB6JxoDhayaEMuerC9I6-whDf16jkU9kXKxw__",
-                  price: "\$1,600",
-                  title: "Beosound 1",
-                ),
-                ProductCard(
-                  color: "Black",
-                  count: 1,
-                  image:
-                      "https://s3-alpha-sig.figma.com/img/1fd7/ee7f/9d31634bea4a2a8fd3e5ab0f0d44bf5f?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oFHqWY5uTBLNPBeN2TUwqDsPxyNZXE0Abf1BXQgC1KHb7m-AQeZBjEGPgm5Y15K0PQ7Xu5g0L2uWjA7qvJKcYCbBu57NpUqfJaAO3hK9o-u8La6g2FVxnPdRMIdjU4fX9m0l6yZcHp-f96gRaAtuwlxWLNooJwgz38eiykQySTqx6unnz805IwrAZ3a8BHSoKYtYeCvfFRZ87W3gdjgsY5PGrvRLiGIOxKOtxB6-zYSLm13IyfC-xyZS9FYoFIf2y~~qMaQBW~x4hMEHCNElWtWILoLbePZkguoJ2ocC2zJPT9Wyn~keN9CVN2VK5w~9v6IWhLAP3orwdjv4CmEnAg__",
-                  price: "\$2,200",
-                  title: "Beosound Balance",
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: SizedBox(
+                    height: 360,
+                    width: double.infinity,
+                    child: ListView.separated(
+                        separatorBuilder: (ctx, index) => SizedBox(height: 20),
+                        itemCount: viewModel.userGlobal!.cart!.length,
+                        itemBuilder: (ctx, index) {
+                          final cartItem = viewModel.userGlobal!.cart![index];
+                          return ProductCard(
+                           cartItem: cartItem,
+                          );
+                        }),
+                  ),
                 ),
                 Spacer(),
                 Divider(),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 35,
+                    vertical: 15,
                   ),
                   child: Row(
                     children: [
@@ -88,7 +98,7 @@ class CartV1Screen extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        "\$ 9,800",
+                        "\$ $totalPrice",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -104,7 +114,14 @@ class CartV1Screen extends StatelessWidget {
                       builder: (builder) => Showmodal(),
                     );
                   },
-                  child: CheckOutButton(onTap: (){},),
+                  child: CheckOutButton(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (ctx) => PaymentMethodView()));
+                    },
+                  ),
                 ),
               ],
             ),

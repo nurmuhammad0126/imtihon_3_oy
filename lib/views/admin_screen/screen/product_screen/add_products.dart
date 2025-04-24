@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_3_oy_imtixon/models/category_model.dart';
 import 'package:flutter_3_oy_imtixon/view_model/category_view_model.dart';

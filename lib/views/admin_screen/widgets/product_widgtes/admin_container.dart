@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_3_oy_imtixon/views/admin_screen/screen/product_screen/admin_products_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AdminContainer extends StatelessWidget {

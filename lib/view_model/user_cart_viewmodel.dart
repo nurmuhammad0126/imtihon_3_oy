@@ -38,16 +38,24 @@ class UserCartViewmodel {
     int newQuantity,
   ) async {
     List<CartItemModel>? newCart = [];
+
     if (userViewmodel.userGlobal != null) {
       if (userViewmodel.userGlobal?.cart != null) {
         newCart = userViewmodel.userGlobal!.cart;
-        int index = newCart!.indexOf(cartItem);
+
+        int index = newCart!.indexWhere(
+          (e) => e.productId == cartItem.productId,
+        );
+
         newCart[index] = cartItem.copyWith(quantity: newQuantity);
 
         userViewmodel.userGlobal =
             userViewmodel.userGlobal!.copyWith(cart: newCart);
+
         final url = Uri.parse("$_baseUrl/${userViewmodel.userGlobal!.id}.json");
+
         final encodedData = userViewmodel.userGlobal!.toJson();
+
         await http.patch(url, body: jsonEncode(encodedData));
       }
     }

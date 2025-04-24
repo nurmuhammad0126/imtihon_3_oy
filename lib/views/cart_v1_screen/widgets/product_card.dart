@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_3_oy_imtixon/models/cart_item_model.dart';
 import 'package:flutter_3_oy_imtixon/utils/app_colors.dart';
+import 'package:flutter_3_oy_imtixon/view_model/user_cart_viewmodel.dart';
 
-class ProductCard extends StatelessWidget {
-  final String image;
-  final String title;
-  final String color;
-  final String price;
-  final int count;
-  const ProductCard({
-    super.key,
-    required this.color,
-    required this.count,
-    required this.image,
-    required this.price,
-    required this.title,
-  });
+class ProductCard extends StatefulWidget {
+  final CartItemModel cartItem;
+  const ProductCard({super.key, required this.cartItem});
+
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  CartItemModel? cart;
+  final userCartViewmodel = UserCartViewmodel();
+  @override
+  void initState() {
+    super.initState();
+    cart = widget.cartItem;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +39,7 @@ class ProductCard extends StatelessWidget {
             SizedBox(
               height: 114,
               width: 88,
-              child: Image.network(
-                image,
-              ),
+              child: Image.network(cart?.image ?? ""),
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -54,21 +56,21 @@ class ProductCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          title,
+                          cart?.productName ?? "",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        // Text(
+
+                        //   style: TextStyle(
+                        //       fontSize: 12,
+                        //       fontWeight: FontWeight.bold,
+                        //       color: AppColors.textColor.withAlpha(125)),
+                        // ),
                         Text(
-                          color,
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.textColor.withAlpha(125)),
-                        ),
-                        Text(
-                          price,
+                          cart?.productPrice.toString() ?? "",
                           style: TextStyle(
                             fontSize: 12,
                           ),
@@ -88,10 +90,24 @@ class ProductCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
+                              onTap: () async {
+                                if (cart != null) {
+                                  int count = cart!.quantity!;
+
+                                  if (cart!.quantity! > 0) {
+                                    count = cart!.quantity! - 1;
+                                  }
+
+                                  await userCartViewmodel.updateCartQuantity(
+                                      cart!, count);
+                                  cart = cart!.copyWith(quantity: count);
+                                  setState(() {});
+                                }
+                              },
                               child: Icon(
-                            Icons.remove,
-                            size: 16,
-                          )),
+                                Icons.remove,
+                                size: 16,
+                              )),
                           Container(
                             width: 32,
                             height: 24,
@@ -101,7 +117,7 @@ class ProductCard extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                "$count",
+                                "${cart?.quantity ?? 1}",
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
@@ -110,10 +126,20 @@ class ProductCard extends StatelessWidget {
                             ),
                           ),
                           GestureDetector(
+                              onTap: () async {
+                                if (cart != null) {
+                                  final count = cart!.quantity! + 1;
+
+                                  await userCartViewmodel.updateCartQuantity(
+                                      cart!, count);
+                                  cart = cart!.copyWith(quantity: count);
+                                  setState(() {});
+                                }
+                              },
                               child: Icon(
-                            Icons.add,
-                            size: 16,
-                          )),
+                                Icons.add,
+                                size: 16,
+                              )),
                         ],
                       ),
                     ),

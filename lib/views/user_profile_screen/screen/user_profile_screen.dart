@@ -114,14 +114,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          userModel!.profile.name ?? "No name",
+                                          userModel?.profile.name ?? "No name",
                                           style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         Text(
-                                          userModel!.email ?? "No email",
+                                          userModel?.email ?? "No email",
                                           style: TextStyle(fontSize: 14),
                                         ),
                                       ],
@@ -148,9 +148,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                     itemBuilder: (context, index) =>
                                         ProfileCards(
                                       idOrder:
-                                          userModel!.orders![index].id ?? "",
+                                          userModel?.orders![index].id ?? "",
                                       status:
-                                          userModel!.orders![index].status ??
+                                          userModel?.orders![index].status ??
                                               "processing",
                                       products:
                                           userModel!.orders![index].products ??
@@ -168,7 +168,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         height: 14,
                       ),
                       GestureDetector(
-                        
                         onTap: () async {
                           final res = await showModalBottomSheet(
                               context: context,
