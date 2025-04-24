@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_3_oy_imtixon/view_model/user_order_viewmodel.dart';
+import 'package:flutter_3_oy_imtixon/views/main_screen.dart';
 
 import '../../../view_model/user_cart_viewmodel.dart';
 import '../../../view_model/user_viewmodel.dart';
@@ -13,6 +15,7 @@ class PaymentSucseful extends StatefulWidget {
 }
 
 class _PaymentSucsefulState extends State<PaymentSucseful> {
+  final cartOrder = UserOrderViewmodel();
   final viewModel2 = UserCartViewmodel();
   final viewModel = UserViewmodel();
 
@@ -73,11 +76,11 @@ class _PaymentSucsefulState extends State<PaymentSucseful> {
           name: "Continue to Payment",
           icon: Icon(Icons.arrow_left),
           onPressed: () async {
-            // await viewModel2.addUserCart(viewModel.userGlobal!.cart!.first);
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => MainScreen()),
-            // );
+            await cartOrder.addUserOrder();
+            if (context.mounted) {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (ctx) => MainScreen()));
+            }
           },
           heightFactor: 0.2,
           widthFactor: 0.8,

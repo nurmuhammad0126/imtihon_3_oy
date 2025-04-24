@@ -7,6 +7,7 @@ import 'package:flutter_3_oy_imtixon/views/home_screen/widgets/drawer_widget.dar
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../categories_screen/screen/categories_screen.dart';
+import '../../single_products/single_product_v1/screen/single_product_v1.dart';
 import '../widgets/category_container.dart';
 import '../widgets/product_container.dart';
 
@@ -113,11 +114,28 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisSpacing: 10.h,
                       ),
                       itemBuilder: (context, index) {
-                        return ProductContainer(
-                          title: products[index].name,
-                          image: products[index].image,
-                          number: "${products[index].price} \$",
+                        return GestureDetector(
+                          onTap: () async {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SingleProductV1(
+                                    productModel: products[index],
+                                  ),
+                                ));
+                            
+                          },
+                          child: ProductContainer(
+                            title: products[index].name,
+                            image: products[index].image,
+                            number: "${products[index].price} \$",
+                          ),
                         );
+                        // return ProductContainer(
+                        //   title: products[index].name,
+                        //   image: products[index].image,
+                        //   number: "${products[index].price} \$",
+                        // );
                       },
                     ),
                   ],
