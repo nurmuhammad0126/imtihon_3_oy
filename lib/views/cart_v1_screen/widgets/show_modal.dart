@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_3_oy_imtixon/views/cart_v1_screen/widgets/check_out_button.dart';
-import 'package:flutter_3_oy_imtixon/views/cart_v1_screen/widgets/product_card.dart';
+import 'check_out_button.dart';
 
 class Showmodal extends StatelessWidget {
   const Showmodal({super.key});

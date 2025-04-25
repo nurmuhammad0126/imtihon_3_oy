@@ -4,7 +4,7 @@ import '../../../view_model/user_viewmodel.dart';
 import '../../peyment_method/screen/payment_method_screen.dart';
 import '../widgets/check_out_button.dart';
 import '../widgets/product_card.dart';
-import '../widgets/showModal.dart';
+import '../widgets/show_modal.dart';
 
 class CartV1Screen extends StatefulWidget {
   const CartV1Screen({super.key});
