@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_3_oy_imtixon/models/cart_item_model.dart';
-import 'package:flutter_3_oy_imtixon/view_model/user_viewmodel.dart'
-    show UserViewmodel;
+import 'package:flutter_3_oy_imtixon/view_model/user_viewmodel.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -17,6 +16,8 @@ class UserCartViewmodel {
   final _baseUrl =
       "https://exam3-85adf-default-rtdb.firebaseio.com/exam3/users";
 
+
+  //! ADD cart in USER
   Future<bool?> addUserCart(CartItemModel cartItem) async {
     if (userViewmodel.userGlobal != null) {
       if (userViewmodel.userGlobal!.cart == null) {
@@ -37,6 +38,7 @@ class UserCartViewmodel {
     return false;
   }
 
+  //! UPDATE quantity in CART and save USER cart 
   Future<void> updateCartQuantity(
     CartItemModel cartItem,
     int newQuantity,

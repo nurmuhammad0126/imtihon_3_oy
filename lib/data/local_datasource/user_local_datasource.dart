@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserLocalDatasource {
   final String _userKey = 'user';
 
+
+  //! GET user  
   Future<UserModel?> getUser() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -21,6 +23,7 @@ class UserLocalDatasource {
     return null;
   }
 
+  //! SAVE user in local
   Future<void> saveUser(UserModel user) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -31,6 +34,7 @@ class UserLocalDatasource {
     }
   }
 
+  //! DELETE user in local
   Future<void> delete() async {
     try {
       final prefs = await SharedPreferences.getInstance();

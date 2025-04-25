@@ -16,7 +16,8 @@ class UserViewmodel {
   AdminModel? adminGlobal;
 
 
-  // Admin= ========================================================================================================
+  ///// Admin========================================================================================================
+  // LOGIN
   Future<bool> loginAdmin({
     required String login,
     required String password,
@@ -40,17 +41,19 @@ class UserViewmodel {
     return false;
   }
 
+  // LOGOUT
   Future<void> logOutAdmin()async{
     await repo.logoutAdmin();
   }
 
+  // GET admin
   Future<void> getAdmin()async{
     adminGlobal =  await repo.getAdmin();
   }
 
 
 
-// User============================================================================================================
+  ///// User============================================================================================================
   //! LOGIN
   Future<bool> login({required String login, required String password}) async {
     final users = await repo.getUsers() as List<UserModel>;
@@ -92,7 +95,7 @@ class UserViewmodel {
     return false;
   }
 
-  // Update password
+  // Update password from email
   Future<void> updateEmailPassword(String email, String newPassword) async {
     final users = await repo.getUsers();
 
@@ -120,6 +123,7 @@ class UserViewmodel {
     }
   }
 
+  // Update password from PhoneNumber
   Future<void> updatePhonePassword(String phone, String newPassword) async {
     final users = await repo.getUsers();
 

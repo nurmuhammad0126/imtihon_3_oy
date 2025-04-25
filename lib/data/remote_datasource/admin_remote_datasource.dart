@@ -6,6 +6,7 @@ class AdminRemoteDatasource {
   final String _baseUrl =
       "https://exam3-85adf-default-rtdb.firebaseio.com/exam3/admins";
 
+  //! GET admin
   Future<List<AdminModel>?> getAdmins() async {
     final url = Uri.parse("$_baseUrl.json");
 
@@ -28,6 +29,7 @@ class AdminRemoteDatasource {
     return null;
   }
 
+  //! ADD admin
   Future<bool> addAdmin(AdminModel admin) async {
     final url = Uri.parse("$_baseUrl.json");
 
@@ -40,6 +42,7 @@ class AdminRemoteDatasource {
     return response.statusCode == 200;
   }
 
+  //! DELETE admin
   Future<bool> deleteAdmin(String adminId) async {
     final url = Uri.parse("$_baseUrl/$adminId.json");
 
@@ -48,6 +51,7 @@ class AdminRemoteDatasource {
     return response.statusCode == 200;
   }
 
+  //UPDATE admin
   Future<bool> updateAdmin(String adminId, AdminModel admin) async {
     final url = Uri.parse("$_baseUrl/$adminId.json");
 

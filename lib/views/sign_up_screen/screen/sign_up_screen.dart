@@ -55,8 +55,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             isRegister = false;
           });
 
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Bunday Foydalanuvchi oldin royhatdan otgan !")));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Bunday Foydalanuvchi oldin royhatdan otgan !"),
+            ),
+          );
         }
       }
     }

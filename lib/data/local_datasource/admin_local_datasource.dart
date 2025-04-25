@@ -9,6 +9,7 @@ import '../../models/admin_model.dart';
 class AdminLocalDatasource {
   final String _adminKey = 'admin';
 
+  //! GET admin
   Future<AdminModel?> getAdmin() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -25,6 +26,7 @@ class AdminLocalDatasource {
     return null;
   }
 
+  //! SAVE admin in local
   Future<void> saveadmin(AdminModel admin) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -37,6 +39,7 @@ class AdminLocalDatasource {
     }
   }
 
+  //! DEELETE admin in local
   Future<void> delete() async {
     try {
       final prefs = await SharedPreferences.getInstance();

@@ -7,6 +7,7 @@ class CartItemRemoteDatasource {
   final String _baseUrl =
       "https://exam3-85adf-default-rtdb.firebaseio.com/exam3/users";
 
+  //! GET CartItems 
   Future<List<CartItemModel>?> getCartItems(String userId) async {
   try {
     final url = Uri.parse("$_baseUrl/$userId/cart.json");
@@ -33,7 +34,7 @@ class CartItemRemoteDatasource {
   return null;
 }
 
-
+  //! ADD cart in user/cart
   Future<bool> addCartItem(String userId, CartItemModel cartItem) async {
     final url = Uri.parse("$_baseUrl/$userId/cart.json");
 
@@ -46,6 +47,7 @@ class CartItemRemoteDatasource {
     return response.statusCode == 200;
   }
 
+  //! REMOVE cartItem in user/cart
   Future<bool> removeCartItem(String userId, String productId) async {
     final url = Uri.parse("$_baseUrl/$userId/cart/$productId.json");
 
@@ -54,6 +56,7 @@ class CartItemRemoteDatasource {
     return response.statusCode == 200;
   }
 
+  //! CLEAR ALL cartItem
   Future<bool> clearCart(String userId) async {
     final url = Uri.parse("$_baseUrl/$userId/cart.json");
 
